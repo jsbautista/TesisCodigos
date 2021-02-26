@@ -1,0 +1,172 @@
+{
+    "numEmpleados": 3,
+    "numOrdenes": 3,
+    "numDiasOperacion": 1,
+    "numHorasDiaLaboral": 5,
+    "numHabilidades": 1,
+    "numLugares": 4,
+    "disponibilidadOperarios": [
+        [
+            [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                1.0
+            ]
+        ],
+        [
+            [
+                1.0,
+                1.0,
+                0.0,
+                1.0,
+                1.0
+            ]
+        ],
+        [
+            [
+                1.0,
+                1.0,
+                0.0,
+                1.0,
+                1.0
+            ]
+        ]
+    ],
+    "disponibilidadOrdenes": [
+        [
+            [
+                0.0,
+                0.0,
+                1.0,
+                1.0,
+                1.0
+            ]
+        ],
+        [
+            [
+                0.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ]
+        ],
+        [
+            [
+                1.0,
+                1.0,
+                1.0,
+                0.0,
+                1.0
+            ]
+        ]
+    ],
+    "costosANS": [
+        [
+            [
+                8.0,
+                8.0,
+                8.0,
+                8.0,
+                8.0
+            ]
+        ],
+        [
+            [
+                0.0,
+                7.0,
+                7.0,
+                7.0,
+                7.0
+            ]
+        ],
+        [
+            [
+                3.0,
+                3.0,
+                3.0,
+                3.0,
+                3.0
+            ]
+        ]
+    ],
+    "prioridad": [
+        3.0,
+        2.0,
+        1.0
+    ],
+    "salario": [
+        9.0,
+        8.0,
+        15.0
+    ],
+    "habilidadesOperarios": [
+        [
+            1.0
+        ],
+        [
+            1.0
+        ],
+        [
+            1.0
+        ]
+    ],
+    "habilidadesOrdenes": [
+        [
+            1.0
+        ],
+        [
+            1.0
+        ],
+        [
+            1.0
+        ]
+    ],
+    "porcentajeCumplimientoHabilidades": 0.25765600435765024,
+    "coordenadas": [
+        {
+            "latitud": 96,
+            "longitud": 32
+        },
+        {
+            "latitud": 13,
+            "longitud": 32
+        },
+        {
+            "latitud": 5,
+            "longitud": 30
+        },
+        {
+            "latitud": 77,
+            "longitud": 12
+        }
+    ],
+    "distanciasOrdenes": [
+        [
+            0.0,
+            83.0,
+            93.0,
+            39.0
+        ],
+        [
+            83.0,
+            0.0,
+            10.0,
+            84.0
+        ],
+        [
+            93.0,
+            10.0,
+            0.0,
+            90.0
+        ],
+        [
+            39.0,
+            84.0,
+            90.0,
+            0.0
+        ]
+    ]
+}

@@ -1,0 +1,133 @@
+{
+    "numEmpleados": 2,
+    "numOrdenes": 2,
+    "numDiasOperacion": 1,
+    "numHorasDiaLaboral": 6,
+    "numHabilidades": 1,
+    "numLugares": 3,
+    "disponibilidadOperarios": [
+        [
+            [
+                1.0,
+                0.0,
+                1.0,
+                1.0,
+                0.0,
+                1.0
+            ]
+        ],
+        [
+            [
+                0.0,
+                1.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0
+            ]
+        ]
+    ],
+    "disponibilidadOrdenes": [
+        [
+            [
+                0.0,
+                0.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ]
+        ],
+        [
+            [
+                1.0,
+                0.0,
+                0.0,
+                1.0,
+                1.0,
+                0.0
+            ]
+        ]
+    ],
+    "costosANS": [
+        [
+            [
+                0.0,
+                5.0,
+                5.0,
+                5.0,
+                5.0,
+                5.0
+            ]
+        ],
+        [
+            [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                5.0
+            ]
+        ]
+    ],
+    "prioridad": [
+        2.0,
+        2.0
+    ],
+    "salario": [
+        7.0,
+        10.0
+    ],
+    "habilidadesOperarios": [
+        [
+            1.0
+        ],
+        [
+            1.0
+        ]
+    ],
+    "habilidadesOrdenes": [
+        [
+            1.0
+        ],
+        [
+            1.0
+        ]
+    ],
+    "porcentajeCumplimientoHabilidades": [
+        0.22206872009638146,
+        0.22206872009638146
+    ],
+    "coordenadas": [
+        {
+            "latitud": 31,
+            "longitud": 18
+        },
+        {
+            "latitud": 6,
+            "longitud": 9
+        },
+        {
+            "latitud": 6,
+            "longitud": 31
+        }
+    ],
+    "distanciasOrdenes": [
+        [
+            0.0,
+            34.0,
+            38.0
+        ],
+        [
+            34.0,
+            0.0,
+            22.0
+        ],
+        [
+            38.0,
+            22.0,
+            0.0
+        ]
+    ]
+}

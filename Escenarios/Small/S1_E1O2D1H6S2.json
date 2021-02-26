@@ -1,0 +1,122 @@
+{
+    "numEmpleados": 1,
+    "numOrdenes": 2,
+    "numDiasOperacion": 1,
+    "numHorasDiaLaboral": 6,
+    "numHabilidades": 2,
+    "numLugares": 3,
+    "disponibilidadOperarios": [
+        [
+            [
+                0.0,
+                1.0,
+                1.0,
+                1.0,
+                0.0,
+                0.0
+            ]
+        ]
+    ],
+    "disponibilidadOrdenes": [
+        [
+            [
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ]
+        ],
+        [
+            [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ]
+        ]
+    ],
+    "costosANS": [
+        [
+            [
+                8.0,
+                8.0,
+                8.0,
+                8.0,
+                8.0,
+                8.0
+            ]
+        ],
+        [
+            [
+                0.0,
+                0.0,
+                0.0,
+                6.0,
+                6.0,
+                6.0
+            ]
+        ]
+    ],
+    "prioridad": [
+        3.0,
+        4.0
+    ],
+    "salario": [
+        15.0
+    ],
+    "habilidadesOperarios": [
+        [
+            0.0,
+            1.0
+        ]
+    ],
+    "habilidadesOrdenes": [
+        [
+            1.0,
+            1.0
+        ],
+        [
+            1.0,
+            1.0
+        ]
+    ],
+    "porcentajeCumplimientoHabilidades": [
+        0.19818849361565594,
+        0.19818849361565594
+    ],
+    "coordenadas": [
+        {
+            "latitud": 79,
+            "longitud": 4
+        },
+        {
+            "latitud": 71,
+            "longitud": 17
+        },
+        {
+            "latitud": 11,
+            "longitud": 60
+        }
+    ],
+    "distanciasOrdenes": [
+        [
+            0.0,
+            21.0,
+            124.0
+        ],
+        [
+            21.0,
+            0.0,
+            103.0
+        ],
+        [
+            124.0,
+            103.0,
+            0.0
+        ]
+    ]
+}

@@ -1,0 +1,145 @@
+{
+    "numEmpleados": 2,
+    "numOrdenes": 2,
+    "numDiasOperacion": 1,
+    "numHorasDiaLaboral": 8,
+    "numHabilidades": 1,
+    "numLugares": 3,
+    "disponibilidadOperarios": [
+        [
+            [
+                1.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0
+            ]
+        ],
+        [
+            [
+                1.0,
+                1.0,
+                0.0,
+                0.0,
+                1.0,
+                1.0,
+                0.0,
+                1.0
+            ]
+        ]
+    ],
+    "disponibilidadOrdenes": [
+        [
+            [
+                0.0,
+                1.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0
+            ]
+        ],
+        [
+            [
+                1.0,
+                1.0,
+                1.0,
+                0.0,
+                0.0,
+                1.0,
+                1.0,
+                0.0
+            ]
+        ]
+    ],
+    "costosANS": [
+        [
+            [
+                0.0,
+                0.0,
+                5.0,
+                5.0,
+                5.0,
+                5.0,
+                5.0,
+                5.0
+            ]
+        ],
+        [
+            [
+                4.0,
+                4.0,
+                4.0,
+                4.0,
+                4.0,
+                4.0,
+                4.0,
+                4.0
+            ]
+        ]
+    ],
+    "prioridad": [
+        3.0,
+        3.0
+    ],
+    "salario": [
+        12.0,
+        17.0
+    ],
+    "habilidadesOperarios": [
+        [
+            1.0
+        ],
+        [
+            1.0
+        ]
+    ],
+    "habilidadesOrdenes": [
+        [
+            1.0
+        ],
+        [
+            1.0
+        ]
+    ],
+    "porcentajeCumplimientoHabilidades": [
+        0.8908614961839525,
+        0.8908614961839525
+    ],
+    "coordenadas": [
+        {
+            "latitud": 56,
+            "longitud": 24
+        },
+        {
+            "latitud": 3,
+            "longitud": 89
+        },
+        {
+            "latitud": 84,
+            "longitud": 84
+        }
+    ],
+    "distanciasOrdenes": [
+        [
+            0.0,
+            118.0,
+            88.0
+        ],
+        [
+            118.0,
+            0.0,
+            86.0
+        ],
+        [
+            88.0,
+            86.0,
+            0.0
+        ]
+    ]
+}
