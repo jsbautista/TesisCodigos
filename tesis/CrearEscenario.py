@@ -67,7 +67,21 @@ def crearEscenario(numEmpleados, numOrdenes, numDias):
     tiempoDeAtencion = []
     contador = 0
     habilidadesOrdenes = []
-    #Extraer habilidades ordenes
+
+    empleadosFile = open("./Empleados.json")
+    empleadosData = json.load(empleadosFile)
+
+    for empleado in empleadosData:
+        if len(empleado['Tasks']) > 0:
+            tasks = empleado['Tasks']
+            for task in tasks:
+                minutos = int(task['DateEndTime'][14:16]) - int(task['DateStartAttention'][14:16])
+                horas = int(task['DateEndTime'][11:13]) - int(task['DateStartAttention'][11:13])
+                tiempoAtencion += (minutos + horas * 60)
+                contadorTiempoA += 1
+    tiempoAtencion = tiempoAtencion / (contadorTiempoA * 60)
+
+    # Extraer habilidades ordenes
     while numOrdenes > contador:
         tiempoDeAtencion.append(tiempoAtencion)
 
@@ -84,21 +98,6 @@ def crearEscenario(numEmpleados, numOrdenes, numDias):
             contadorH += 1
         contador += 1
         habilidadesOrdenes.append(habilidadesOrd)
-
-
-
-    empleadosFile = open("./Empleados.json")
-    empleadosData = json.load(empleadosFile)
-
-    for empleado in empleadosData:
-        if len(empleado['Tasks']) > 0:
-            tasks = empleado['Tasks']
-            for task in tasks:
-                minutos = int(task['DateEndTime'][14:16]) - int(task['DateStartAttention'][14:16])
-                horas = int(task['DateEndTime'][11:13]) - int(task['DateStartAttention'][11:13])
-                tiempoAtencion += (minutos + horas * 60)
-                contadorTiempoA += 1
-    tiempoAtencion = tiempoAtencion / contadorTiempoA
 
     contadorE = 0
 
@@ -140,4 +139,3 @@ def crearEscenario(numEmpleados, numOrdenes, numDias):
 
 
 
-crearEscenario(2,10,2)

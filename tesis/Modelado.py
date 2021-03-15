@@ -287,7 +287,7 @@ def ejecutarModeloPyomo(filePath):
 
 
 
-    print("Función 0 Max Ordenes " + str(valorF0-contarActivos))
+    print("Función 0 Max Ordenes " + str(valorF0))
 
     results = {
         "FO_Global": (valorF0 - contarActivos ),

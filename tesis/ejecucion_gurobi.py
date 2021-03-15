@@ -9,15 +9,19 @@ import modelado_gurobi
 #import modelado_gurobi_copia
 import os
 
+import CrearEscenario
+
 tamano = "Small"
 
 directory_path = "./" 
+
+CrearEscenario.crearEscenario(2,15,2)
 
 directory = os.fsencode(directory_path)
     
 for file in os.listdir(directory):
     filename = os.fsdecode(file)
-    if filename.endswith("ano2.json"): 
+    if filename.endswith("ario.json"):
         print (filename)    
         file_path = os.path.join(directory_path, filename)
         
