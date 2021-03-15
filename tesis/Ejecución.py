@@ -6,7 +6,7 @@ import CrearEscenario
 
 directory_path = "./"
 
-CrearEscenario.crearEscenario(2,10,2)
+CrearEscenario.crearEscenario(2,15,2)
 
 directory = os.fsencode(directory_path)
 for file in os.listdir(directory):

@@ -20,7 +20,7 @@ def ejecutarModeloGurobi(filePath):
     ### Conjuntos
     
     E = range(0, numEmpleados)       #Conjunto de Empleados
-    O = range(0, numOrdenes)         #Conjunto de Ordenes
+    O = range(0, numOrdenes + 1)         #Conjunto de Ordenes
     D = range(0, numDiasOperacion)   #Conjunto de Dias de operación
     S = range(0, numHabilidades)     #Conjunto de Habilidades
         
