@@ -26,7 +26,6 @@ for file in os.listdir(directory):
         resultsLine = str(execResults["Modelo"]) + "," + str(execResults["Escenario"]) + "," + \
                       str(execResults["FO_Global"]) + str(execResults["Tiempo"])
 
-
         while True:
             duration = 1000  # milliseconds
             freq = 440  # Hz

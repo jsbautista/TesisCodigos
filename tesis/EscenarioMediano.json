@@ -1,7 +1,7 @@
 {
-    "numEmpleados": 2,
+    "numEmpleados": 1,
     "numOrdenes": 13,
-    "numDiasOperacion": 2,
+    "numDiasOperacion": 1,
     "numHabilidades": 1,
     "tiempoDesplazamiento": [
       [0, 4.35, 0.75, 3.15, 1.5, 2.55, 3.6, 4.2, 1.2, 0.45, 0.75, 3.75, 0.75, 1.35],

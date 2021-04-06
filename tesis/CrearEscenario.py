@@ -137,5 +137,5 @@ def crearEscenario(numEmpleados, numOrdenes, numDias):
     with open("./Escenario.json", 'w') as file:
         json.dump(data,file)
 
-
+crearEscenario(1,10,1)
 
