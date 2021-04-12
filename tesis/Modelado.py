@@ -229,7 +229,6 @@ def ejecutarModeloPyomo(filePath):
     model.obj = Objective(expr = f0, sense = maximize)
 
     SolverFactory('glpk', executable="C:/glpk-4.65/w64/glpsol.exe").solve(model)
-   # SolverFactory('ipopt',executable="C:/Users/PC/Ipopt/bin/ipopt.exe").solve(model)
 
     timerGeneralFinal = time.time()
     timerGeneral = timerGeneralFinal - timerGeneralInicial

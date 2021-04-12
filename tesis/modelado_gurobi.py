@@ -162,7 +162,14 @@ def ejecutarModeloGurobi(filePath):
             model.addConstr(aux[e,d] <= quicksum(x[e,o,d,a] for o in O
                                                             for a in O))
             
-  
+    #El empleado debe cumplir con unas habilidades minimas
+    for o in O:
+        for d in D:
+            for a in O:
+                for e in E:
+                    model.addConstr(quicksum(x[e,o,d,a] * habilidadesOrdenes[o,s] * habilidadesOperarios[e,s] for s in S) >= porcentajeCumplimientoHabilidades * quicksum(x[e,o,d,a] * habilidadesOrdenes[o,s] for s in S))
+
+    #Fairness
     for e in E:
         for d in D:
             model.addConstr(minx[d] <= quicksum(x[e,o,d,a] for o in O
@@ -212,7 +219,6 @@ def ejecutarModeloGurobi(filePath):
     model.ModelSense = GRB.MAXIMIZE
     model.setParam('NonConvex', 2)
     model.setParam('OutputFlag', 0)
-    model.write('Modelado.lp')
     model.optimize()
     
     timerGeneralFinal = time.time()

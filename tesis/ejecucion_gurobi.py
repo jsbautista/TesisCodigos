@@ -15,13 +15,13 @@ tamano = "Small"
 
 directory_path = "./" 
 
-CrearEscenario.crearEscenario(1,28,1)
+CrearEscenario.crearEscenario(2,33,1)
 
 directory = os.fsencode(directory_path)
     
 for file in os.listdir(directory):
     filename = os.fsdecode(file)
-    if filename.endswith("ano.json"):
+    if filename.endswith("ario.json"):
         print (filename)    
         file_path = os.path.join(directory_path, filename)
         
