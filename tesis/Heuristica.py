@@ -7,27 +7,28 @@ import winsound
 
 
 def darProbabilidad(matriz, tiempo, nodoActual, feromonas, alpha, beta, habOrdenes, habEmpleados, q):
+
     probabilidad = []
-    n = []
+    vector = []
 
     for i in range(len(matriz)):
         if (matriz[nodoActual][i] != 0):
-            if(sum(numpy.array(habOrdenes[i])*numpy.array(habEmpleados)) >= q * sum(numpy.array(habOrdenes[i]))):
-                n.append(round(beta / matriz[nodoActual][i], 2))
+
+            #Una orden solo puede ser antendida por un empleado con un minimo de habilidades
+            if(sum(numpy.array(habOrdenes[i]) * numpy.array(habEmpleados)) >= q * sum(numpy.array(habOrdenes[i]))):
+                vector.append(round(beta / matriz[nodoActual][i] + alpha * feromonas[nodoActual][i], 2))
             else:
-                n.append(0)
+                vector.append(0)
         else:
-            n.append(0)
+            vector.append(0)
 
-    feromonas = feromonas * alpha
-
-    vector = numpy.array(n) * numpy.array(feromonas[nodoActual])
     vector[0] = 0
 
     suma = sum(vector)
     if(suma == 0):
         return probabilidad
 
+    #Calcular probabilidades
     for i in range(len(matriz)):
         if matriz[nodoActual][i] == 0:
             if len(probabilidad) > 0:
@@ -58,23 +59,31 @@ def borrarNodo(nodoActual, matriz):
 def actualizarFeromonas(secuencia, feromonas, rho):
     deltaFeromonas = []
 
+    #Inicializar delta feromonas
     for i in range(len(feromonas)):
         deltaFeromonas.append(numpy.repeat(0, len(feromonas)).tolist())
 
+    #Calcular delta feromonas
     for i in range(len(secuencia)):
         for j in range(len(secuencia[i]) - 1):
             deltaFeromonas[secuencia[i][j]][secuencia[i][j + 1]] += (len(secuencia[i]))
 
+    #Retorna feromonas con evaporación
     return (numpy.array(deltaFeromonas) + numpy.array(feromonas)) * rho
 
 
 def heuristica():
-    CrearEscenario.crearEscenario(2, 33, 1)
+    #CrearEscenario.crearEscenario(6, 230, 4)
+    CrearEscenario.crearEscenario(2, 30, 2)
 
+    #Parametros metaheuristica
     alpha = 1
     beta = 5
     rho = 0.5
+    iteraciones = 20
+    hormigas = 20
 
+    #Leer archivos json
     with open('Escenario.json') as file:
         data = json.load(file)
         tiempoDesplazamiento = data['tiempoDesplazamiento']
@@ -87,64 +96,82 @@ def heuristica():
         qParametro = data['porcentajeCumplimientoHabilidades']
 
 
+    #Calcular tiempo total
     tiempoTotal = []
     for i in range(len(tiempoDesplazamiento)):
         vectorActual = []
         for j in range(len(tiempoDesplazamiento)):
             if (tiempoDesplazamiento[i][j] != 0):
-                vectorActual.append(tiempoDesplazamiento[i][j] + tiempoAtencion[j])
+                vectorActual.append(round(tiempoDesplazamiento[i][j] + tiempoAtencion[j],2))
             else:
                 vectorActual.append(0)
         tiempoTotal.append(vectorActual)
 
-    iteraciones = 100
-    feromonas = []
 
+    #Inicializar feromonas
+    feromonas = []
     for i in range(len(tiempoDesplazamiento)):
         feromonas.append(numpy.repeat(1, len(tiempoDesplazamiento)).tolist())
 
-    hormigas = 20
+
+    #Inicializar respuesta
     secuenciaM = []
 
+    #Inicio de metaheuristica
     for j in range(iteraciones):
+        #Secuencias de iteración
         secuencias = []
         for i in range(hormigas):
+
+            #Reiniciar hormiga
             tiempo = copy.deepcopy(tiempoTotal)
             secuencia = []
+
             for dias in range(numDias):
                 for emp in range(numEmpleados):
-                    habilidadesEmpleado = habEmp[emp]
-                    vacio = True
-                    nodoActual = 0
 
+                    #Reiniciar variables
+                    habilidadesEmpleado = habEmp[emp]
                     tiempoDisponible = tiempoD[emp][dias]
+                    vacio = True
+
+                    #En cada recorrido inicio en el nodo 0
+                    nodoActual = 0
 
 
                     while (vacio or nodoActual != 0):
+                        probabilidad = darProbabilidad(tiempo, tiempoDisponible, nodoActual, feromonas, alpha, beta,
+                                                       habOrde, habilidadesEmpleado, qParametro)
 
-                        probabilidad = darProbabilidad(tiempo, tiempoDisponible, nodoActual, feromonas, alpha, beta, habOrde, habilidadesEmpleado, qParametro)
+                        #Determinar nodo a ir
                         aleatorio = random.random()
                         contador = 0
 
-                     #   if(probabilidad[len(probabilidad)-1] < 1):
-                     #       aleatorio = aleatorio * probabilidad[len(probabilidad)-1]
                         while contador < len(probabilidad) and aleatorio > probabilidad[contador]:
                             contador += 1
+
+                        #Probabilidad volver a orden 0
                         if(len(probabilidad)) > 1:
                             if (probabilidad[len(probabilidad) - 1] < aleatorio):
                                 contador = 0
 
+                        #Actualizo valores
                         tiempoDisponible -= tiempo[nodoActual][contador]
                         nodoActual = contador
                         secuencia.append(nodoActual)
                         vacio = False
 
-                        tiempo = borrarNodo(nodoActual, tiempo)
+                        #Un nodo no se visita dos veces
+                        if(nodoActual!=0):
+                            tiempo = borrarNodo(nodoActual, tiempo)
 
+            #Guardar mejor secuencia
             if len(secuencia) > len(secuenciaM):
                 secuenciaM = secuencia
+
             secuencias.append(secuencia)
 
+        #Actualiza feromonas
         feromonas = actualizarFeromonas(secuencias, feromonas, rho)
 
     print(secuenciaM)

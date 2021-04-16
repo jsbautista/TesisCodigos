@@ -17,6 +17,7 @@ def crearEscenario(numEmpleados, numOrdenes, numDias):
     stageData = json.load(stageFile)
 
 
+
     contador = 0
     while numOrdenes > contador:
         row = stageData[contador]
@@ -53,7 +54,7 @@ def crearEscenario(numEmpleados, numOrdenes, numDias):
                 d = 2 * 6371 * math.asin(math.sqrt(math.sin(c * (lat2 - lat1) / 2) ** 2 + math.cos(c * lat1)
                                                 * math.cos(c * lat2) * math.sin(c * (long2 - long1) / 2) ** 2))
                 distanciaA.append(d)
-                tiempoA.append(d / 24)
+                tiempoA.append((d + 15)/ 24)
 
             contadorDis += 1
         contador += 1
@@ -70,6 +71,7 @@ def crearEscenario(numEmpleados, numOrdenes, numDias):
 
     empleadosFile = open("./Empleados.json")
     empleadosData = json.load(empleadosFile)
+
 
     for empleado in empleadosData:
         if len(empleado['Tasks']) > 0:
@@ -124,7 +126,7 @@ def crearEscenario(numEmpleados, numOrdenes, numDias):
         horasE = []
         while contadorDias < numDias:
             diaActual = empleadosData[contadorE]['Availability'][contadorDias]
-            horasE.append(int(diaActual['EndTime'][0:2]) - int(diaActual['StartTime'][0:2]) - 1)
+            horasE.append((int(diaActual['EndTime'][0:2]) - int(diaActual['StartTime'][0:2]) - 1))
             contadorDias += 1
         horasDisponible.append(horasE)
 
@@ -137,5 +139,5 @@ def crearEscenario(numEmpleados, numOrdenes, numDias):
     with open("./Escenario.json", 'w') as file:
         json.dump(data,file)
 
-crearEscenario(1,10,1)
+crearEscenario(6,230,6)
 
