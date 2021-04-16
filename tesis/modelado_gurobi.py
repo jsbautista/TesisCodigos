@@ -36,7 +36,10 @@ def ejecutarModeloGurobi(filePath):
     # Parámetro de costos de ANS
     costosANS = {(o): np.asarray(stageData["costosANS"])[i] for o, i in enumerate(O)}
 
-    # Parámetro de prioridad de cada órden
+    # Parámetro de maxDia de cada órden
+    maxDia = {o: np.asarray(stageData["maxDia"])[i] for o, i in enumerate(O)}
+
+    # Parámetro de prioridad por orden
     prioridad = {o: np.asarray(stageData["prioridad"])[i] for o, i in enumerate(O)}
 
     # Parámetro de costo por hora de cada operario
@@ -68,7 +71,8 @@ def ejecutarModeloGurobi(filePath):
     aux = model.addVars(len(E), len(D), vtype=GRB.BINARY, name='aux')
     u = model.addVars(len(E), len(O), len(D), vtype=GRB.INTEGER, name='u')
     minx = model.addVars(len(D), vtype=GRB.INTEGER, name='minx')
-    ans = model.addVars(len(O), len(D), vtype=GRB.INTEGER, name='ans')
+    ans = model.addVars(len(O), vtype=GRB.INTEGER, name='ans')
+    auxMaxDia = model.addVars(len(O), vtype=GRB.BINARY, name='auxMaxDia')
     ### Restricciones
 
     # Una orden solo puede tener un empleado asignado, solo puede ser atendida en un día y solo debe tener un antecesor
@@ -160,15 +164,19 @@ def ejecutarModeloGurobi(filePath):
             model.addConstr(minx[d] <= quicksum(x[e, o, d, a] for o in O
                                                 for a in O))
 
+    # Acota dias que se tarda una orden en ser atendida desde su dia maximo
     for o in O:
-        auxPrioridad = 0.8 / prioridad[o]
-        for d in D:
-            if d > auxPrioridad:
-                model.addConstr(ans[o, d] <= ((d - auxPrioridad) * quicksum(x[e, o, d, a] for e in E
-                                                                            for a in O)))
+        model.addConstr((quicksum(x[e, o, d, a] * d for e in E
+                                  for a in O for d in D)) - maxDia[o] <= ans[o] + 9999 * (1 - auxMaxDia[o]))
+    for o in O:
+        model.addConstr((quicksum(x[e, o, d, a] * d for e in E
+                                  for a in O for d in D) - maxDia[o]) <= 9999 * (auxMaxDia[o]))
+
+    for o in O:
+        ans[o] >= 0
 
     # Función Objetivo - Cumplimiento de órdenes
-    FO_Cumplimiento = quicksum(x[e, o, d, a] for e in E
+    FO_Cumplimiento = quicksum(x[e, o, d, a] * prioridad[o] for e in E
                                for o in O
                                for d in D
                                for a in O)
@@ -180,13 +188,12 @@ def ejecutarModeloGurobi(filePath):
     #                                             for d in D)
 
     # Función Objetivo - Costo por incumplimiento de ANS
-    for o in O:
-        FO_ANS = costosANS[o] * prioridad[o] * quicksum(ans[o, d] for d in D)
+    FO_ANS = quicksum(costosANS[o] * ans[o] * prioridad[o] for o in O)
 
     FO_Minmax = quicksum(minx[d] for d in D)
 
     model.setObjective(FO_Cumplimiento +
-                       FO_Minmax - FO_ANS)
+                       FO_Minmax * 0.05 - FO_ANS)
 
     ##
 
@@ -196,7 +203,6 @@ def ejecutarModeloGurobi(filePath):
     model.ModelSense = GRB.MAXIMIZE
     model.setParam('NonConvex', 2)
     model.setParam('OutputFlag', 0)
-    model.write('Modelado.lp')
     model.optimize()
 
     timerGeneralFinal = time.time()
@@ -206,19 +212,32 @@ def ejecutarModeloGurobi(filePath):
     for e in E:
         for d in D:
             for o in O:
+                print("aux dias es " + str(auxMaxDia[o]))
+                print("ans es " + str(ans[o]))
                 for a in O:
                     print(x[e, o, d, a])
 
     print("\n")
+    print("Función Objetivo total: " + str(FO_Cumplimiento.getValue() +
+                                           FO_Minmax.getValue() - FO_ANS.getValue()))
     print("Función Objetivo 0 (Ordenes asignadas): " + str(FO_Cumplimiento.getValue()))
     print("Función Objetivo 1 (Minmax): " + str(FO_Minmax.getValue()))
-
     print("\n")
+    print("aux dias es " + str(auxMaxDia[o]))
+
     for d in D:
         print("Dia ac " + str(d) + " Min ordenes " + str(minx[d]))
 
     print("\n")
     print("Tiempo de ejecución total: " + str(round(timerGeneral, 2)) + " segundos")
+
+    for a in O:
+        for e in E:
+            for d in D:
+                for o in O:
+                    if x[e, o, d, a].X == 1:
+                        print(x[e, o, d, a])
+                        print("parte de " + str(a) + " hasta " + str(o))
 
     results = {"FO_Global": (FO_Cumplimiento.getValue() +
                              FO_Minmax.getValue()),
