@@ -1,0 +1,78 @@
+{
+    "numEmpleados": 5,
+    "numOrdenes": 5,
+    "numDiasOperacion": 1,
+    "numHabilidades": 1,
+    "tiempoDesplazamiento": [
+      [0, 1, 1, 1, 1, 1 ],
+      [1, 0, 1, 1, 1, 1],
+      [1, 1, 0, 1, 1, 1],
+      [1, 1, 1, 0, 1, 1],
+      [1, 1, 1, 1, 0, 1],
+      [1, 1, 1, 1, 1, 0]
+    ]
+,
+    "tiempoAtencion": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "habilidadesOperarios": [
+        [
+            1.0
+        ],
+        [
+            1.0
+        ],
+        [
+            1.0
+        ],
+        [
+            1.0
+        ],
+        [
+            1.0
+        ]
+    ],
+    "habilidadesOrdenes": [
+        [
+            0.0
+        ],
+        [
+            1.0
+        ],
+        [
+            1.0
+        ],
+        [
+            1.0
+        ],
+        [
+            1.0
+        ],
+        [
+            1.0
+        ]
+    ],
+    "porcentajeCumplimientoHabilidades": 0.19818849361565594,
+    "horasTrabajo": [
+        [
+            8.0
+        ],
+	[
+	    8.0
+	],
+	[
+	    8.0
+	],
+	[
+	    8.0
+	],
+	[
+	    8.0
+	]
+    ]
+}
