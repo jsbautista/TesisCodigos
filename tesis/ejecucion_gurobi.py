@@ -21,7 +21,7 @@ directory = os.fsencode(directory_path)
     
 for file in os.listdir(directory):
     filename = os.fsdecode(file)
-    if filename.endswith("ario.json"):
+    if filename.endswith("FO.json"):
         print (filename)    
         file_path = os.path.join(directory_path, filename)
         
