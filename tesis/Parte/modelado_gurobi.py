@@ -35,8 +35,7 @@ def ejecutarModeloGurobi(filePath):
     tiemA = { (o) : np.asarray(stageData["tiempoAtencion"])[i] for o,i in enumerate(O)}  
     
     # Parámetro de costos de ANS 
-    costosANS = { (o,d) : np.asarray(stageData["costosANS"])[i][j] for o,i in enumerate(O) 
-                                                                        for d,j in enumerate(D)}  
+    costosANS = { (o) : np.asarray(stageData["costosANS"])[i] for o,i in enumerate(O)}  
     
     # Parámetro de prioridad de cada órden
     prioridad = { o : np.asarray(stageData["prioridad"])[i] for o,i in enumerate(O) } 
