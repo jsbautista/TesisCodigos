@@ -6,13 +6,13 @@ import CrearEscenario
 
 directory_path = "./"
 
-CrearEscenario.crearEscenario(2,15,2)
+CrearEscenario.crearEscenario(2,15,2,0.05)
 
 directory = os.fsencode(directory_path)
 for file in os.listdir(directory):
 
     filename = os.fsdecode(file)
-    if filename.endswith("ano.json"):
+    if filename.endswith("ario.json"):
         print(filename)
         file_path = os.path.join(directory_path, filename)
         execResults = Modelado.ejecutarModeloPyomo(file_path)

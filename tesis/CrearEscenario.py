@@ -1,7 +1,9 @@
 import json
 import math
+from datetime import datetime
+import numpy
 
-def crearEscenario(numEmpleados, numOrdenes, numDias):
+def crearEscenario(numEmpleados, numOrdenes, numDias, costoAns):
 
     data = {}
     data['numEmpleados'] = numEmpleados
@@ -83,12 +85,23 @@ def crearEscenario(numEmpleados, numOrdenes, numDias):
                 contadorTiempoA += 1
     tiempoAtencion = tiempoAtencion / (contadorTiempoA * 60)
 
+
+    maxDia = []
+    hoy = datetime.strptime(stageData[0]['DateSolutionlimit'],'%Y-%m-%dT%H:%M:%S')
+
+    prioridad = []
     # Extraer habilidades ordenes
     while numOrdenes > contador:
         tiempoDeAtencion.append(tiempoAtencion)
+        row = stageData[contador]
+
+
+        #Asignar maximo dia de atención a la orden
+        diaActual = datetime.strptime(row['DateSolutionlimit'],'%Y-%m-%dT%H:%M:%S')
+        deltaDias = (diaActual-hoy).days
+        maxDia.append(deltaDias)
 
         # Extraer habilidades de empleados
-        row = stageData[contador]
         habilidadesOrd = []
         habilidadO = row['Skills']
         contadorH = 0
@@ -100,6 +113,12 @@ def crearEscenario(numEmpleados, numOrdenes, numDias):
             contadorH += 1
         contador += 1
         habilidadesOrdenes.append(habilidadesOrd)
+
+        #Asignar si la orden es prioritaria
+        if(row['IsPriority']):
+            prioridad.append(1.1)
+        else:
+            prioridad.append(1)
 
     contadorE = 0
 
@@ -135,9 +154,12 @@ def crearEscenario(numEmpleados, numOrdenes, numDias):
     data['habilidadesOrdenes'] = habilidadesOrdenes
     data['porcentajeCumplimientoHabilidades'] = 1
     data['horasTrabajo'] = horasDisponible
+    data['maxDia'] = maxDia
+    data['costosANS'] = numpy.repeat(0.05,numOrdenes).tolist()
+    data['prioridad'] = prioridad
 
     with open("./Escenario.json", 'w') as file:
         json.dump(data,file)
 
-crearEscenario(6,230,6)
+crearEscenario(6,230,6,0.05)
 

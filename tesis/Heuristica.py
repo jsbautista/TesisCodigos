@@ -74,7 +74,7 @@ def actualizarFeromonas(secuencia, feromonas, rho):
 
 def heuristica():
     #CrearEscenario.crearEscenario(6, 230, 4)
-    CrearEscenario.crearEscenario(2, 30, 2)
+    CrearEscenario.crearEscenario(2, 30, 2,0.05)
 
     #Parametros metaheuristica
     alpha = 1
