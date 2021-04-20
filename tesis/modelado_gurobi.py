@@ -42,9 +42,6 @@ def ejecutarModeloGurobi(filePath):
     # Parámetro de prioridad por orden
     prioridad = {o: np.asarray(stageData["prioridad"])[i] for o, i in enumerate(O)}
 
-    # Parámetro de costo por hora de cada operario
-    # salario = { e : np.asarray(stageData["salario"])[i] for e,i in enumerate(E) }
-
     # Parámetro de las habilidades de cada empleado
     habilidadesOperarios = {(e, s): np.asarray(stageData["habilidadesOperarios"])[i][j] for e, i in enumerate(E)
                             for s, j in enumerate(S)}
@@ -164,6 +161,16 @@ def ejecutarModeloGurobi(filePath):
             model.addConstr(minx[d] <= quicksum(x[e, o, d, a] for o in O
                                                 for a in O))
 
+    # El empleado debe cumplir con unas habilidades minimas
+    for o in O:
+        for d in D:
+            for a in O:
+                for e in E:
+                    model.addConstr(quicksum(
+                        x[e, o, d, a] * habilidadesOrdenes[o, s] * habilidadesOperarios[e, s] for s in
+                            S) >= porcentajeCumplimientoHabilidades * quicksum(
+                            x[e, o, d, a] * habilidadesOrdenes[o, s] for s in S))
+
     # Acota dias que se tarda una orden en ser atendida desde su dia maximo
     for o in O:
         model.addConstr((quicksum(x[e, o, d, a] * d for e in E
@@ -181,11 +188,7 @@ def ejecutarModeloGurobi(filePath):
                                for d in D
                                for a in O)
 
-    # Función Objetivo - Costo de operación
-    # FO_Costos = quicksum(salario[e] * x[e,o,d,h] for e in E
-    #                                             for o in O
-    #                                             for h in H
-    #                                             for d in D)
+
 
     # Función Objetivo - Costo por incumplimiento de ANS
     FO_ANS = quicksum(costosANS[o] * ans[o] * prioridad[o] for o in O)
@@ -219,7 +222,7 @@ def ejecutarModeloGurobi(filePath):
 
     print("\n")
     print("Función Objetivo total: " + str(FO_Cumplimiento.getValue() +
-                                           FO_Minmax.getValue() - FO_ANS.getValue()))
+                                           FO_Minmax.getValue() * 0.05 - FO_ANS.getValue()))
     print("Función Objetivo 0 (Ordenes asignadas): " + str(FO_Cumplimiento.getValue()))
     print("Función Objetivo 1 (Minmax): " + str(FO_Minmax.getValue()))
     print("\n")
