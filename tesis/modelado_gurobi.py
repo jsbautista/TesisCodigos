@@ -20,7 +20,7 @@ def ejecutarModeloGurobi(filePath):
     ### Conjuntos
 
     E = range(0, numEmpleados)  # Conjunto de Empleados
-    O = range(0, numOrdenes)  # Conjunto de Ordenes
+    O = range(0, numOrdenes + 1)  # Conjunto de Ordenes
     D = range(0, numDiasOperacion)  # Conjunto de Dias de operación
     S = range(0, numHabilidades)  # Conjunto de Habilidades
 
@@ -222,8 +222,8 @@ def ejecutarModeloGurobi(filePath):
 
     print("\n")
     print("Función Objetivo total: " + str(FO_Cumplimiento.getValue() +
-                                           FO_Minmax.getValue() * 0.05 - FO_ANS.getValue()))
-    print("Función Objetivo 0 (Ordenes asignadas): " + str(FO_Cumplimiento.getValue()))
+                                           FO_Minmax.getValue() * 0.05 - FO_ANS.getValue() - (numEmpleados * numDiasOperacion)))
+    print("Función Objetivo 0 (Ordenes asignadas): " + str(FO_Cumplimiento.getValue() - (numEmpleados * numDiasOperacion)))
     print("Función Objetivo 1 (Minmax): " + str(FO_Minmax.getValue()))
     print("\n")
     print("aux dias es " + str(auxMaxDia[o]))

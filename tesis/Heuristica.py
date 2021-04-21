@@ -56,7 +56,7 @@ def borrarNodo(nodoActual, matriz):
     return matriz
 
 
-def actualizarFeromonas(secuencia, feromonas, rho):
+def actualizarFeromonas(secuencia, valorsecuencias, feromonas, rho):
     deltaFeromonas = []
 
     #Inicializar delta feromonas
@@ -66,7 +66,7 @@ def actualizarFeromonas(secuencia, feromonas, rho):
     #Calcular delta feromonas
     for i in range(len(secuencia)):
         for j in range(len(secuencia[i]) - 1):
-            deltaFeromonas[secuencia[i][j]][secuencia[i][j + 1]] += (len(secuencia[i]))
+            deltaFeromonas[secuencia[i][j]][secuencia[i][j + 1]] += valorsecuencias[i]
 
     #Retorna feromonas con evaporación
     return (numpy.array(deltaFeromonas) + numpy.array(feromonas)) * rho
@@ -74,14 +74,14 @@ def actualizarFeromonas(secuencia, feromonas, rho):
 
 def heuristica():
     #CrearEscenario.crearEscenario(6, 230, 4)
-    CrearEscenario.crearEscenario(2, 30, 2,0.05)
+    CrearEscenario.crearEscenario(2, 30, 2, 0.05)
 
     #Parametros metaheuristica
     alpha = 1
     beta = 5
     rho = 0.5
-    iteraciones = 20
-    hormigas = 20
+    iteraciones = 50
+    hormigas = 50
 
     #Leer archivos json
     with open('Escenario.json') as file:
@@ -94,6 +94,9 @@ def heuristica():
         habEmp = data['habilidadesOperarios']
         habOrde = data['habilidadesOrdenes']
         qParametro = data['porcentajeCumplimientoHabilidades']
+        prioridad = data['prioridad']
+        costoAns = data['costosANS']
+        maxDia = data['maxDia']
 
 
     #Calcular tiempo total
@@ -116,24 +119,31 @@ def heuristica():
 
     #Inicializar respuesta
     secuenciaM = []
+    valorSecuenciaMax= 0
 
     #Inicio de metaheuristica
     for j in range(iteraciones):
         #Secuencias de iteración
         secuencias = []
+        valorSecuencias = []
         for i in range(hormigas):
 
             #Reiniciar hormiga
             tiempo = copy.deepcopy(tiempoTotal)
             secuencia = []
 
+            valorSecuencia = 0
             for dias in range(numDias):
+
+                #Auxiliar minMax
+                minMax = 999
                 for emp in range(numEmpleados):
 
                     #Reiniciar variables
                     habilidadesEmpleado = habEmp[emp]
                     tiempoDisponible = tiempoD[emp][dias]
                     vacio = True
+                    ordenes = 0
 
                     #En cada recorrido inicio en el nodo 0
                     nodoActual = 0
@@ -158,6 +168,15 @@ def heuristica():
                         #Actualizo valores
                         tiempoDisponible -= tiempo[nodoActual][contador]
                         nodoActual = contador
+
+                        #Actualizar valor de la secuencia
+                        if(nodoActual!=0):
+                            valorSecuencia += prioridad[nodoActual]
+                            ordenes += 1
+                            if(maxDia[nodoActual] < dias):
+                                valorSecuencia -= (dias - maxDia[nodoActual]) * costoAns[nodoActual] * prioridad[nodoActual]
+
+
                         secuencia.append(nodoActual)
                         vacio = False
 
@@ -165,17 +184,26 @@ def heuristica():
                         if(nodoActual!=0):
                             tiempo = borrarNodo(nodoActual, tiempo)
 
+                    if(ordenes < minMax):
+                        minMax = ordenes
+                valorSecuencia += (minMax + 1) * 0.05
+
             #Guardar mejor secuencia
-            if len(secuencia) > len(secuenciaM):
+            if valorSecuencia > valorSecuenciaMax:
                 secuenciaM = secuencia
+                valorSecuenciaMax = valorSecuencia
+
 
             secuencias.append(secuencia)
+            valorSecuencias.append(valorSecuencia)
 
         #Actualiza feromonas
-        feromonas = actualizarFeromonas(secuencias, feromonas, rho)
+        feromonas = actualizarFeromonas(secuencias, valorSecuencias, feromonas, rho)
 
+    print("La mejor secuencia es")
     print(secuenciaM)
-    print(len(secuenciaM))
+    print("Se pudieron atender " + str(len(secuenciaM) - (numDias * numEmpleados)) + " ordenes de " + str(len(habOrde) - 1))
+    print("La función objetivo tiene un valor de: " + str(valorSecuenciaMax))
     while True:
         duration = 1000  # milliseconds
         freq = 440  # Hz

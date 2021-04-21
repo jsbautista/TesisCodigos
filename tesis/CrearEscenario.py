@@ -155,7 +155,9 @@ def crearEscenario(numEmpleados, numOrdenes, numDias, costoAns):
     data['porcentajeCumplimientoHabilidades'] = 1
     data['horasTrabajo'] = horasDisponible
     data['maxDia'] = maxDia
-    data['costosANS'] = numpy.repeat(0.05,numOrdenes).tolist()
+    costoAns = numpy.repeat(0.05,numOrdenes-1).tolist()
+    costoAns.insert(0,0)
+    data['costosANS'] = costoAns
     data['prioridad'] = prioridad
 
     with open("./Escenario.json", 'w') as file:
