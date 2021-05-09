@@ -4,6 +4,7 @@ from gurobipy import *
 import numpy as np
 import time
 import json
+import CrearMapa
 
 
 def ejecutarModeloGurobi(filePath):
@@ -233,14 +234,17 @@ def ejecutarModeloGurobi(filePath):
 
     print("\n")
     print("Tiempo de ejecución total: " + str(round(timerGeneral, 2)) + " segundos")
-
-    for a in O:
+    ordenes=[]
+    for d in D:
         for e in E:
-            for d in D:
+            for a in O:
                 for o in O:
                     if x[e, o, d, a].X == 1:
-                        print(x[e, o, d, a])
+                        ordenes.append(a)
+                        ordenes.append(o)
                         print("parte de " + str(a) + " hasta " + str(o))
+    
+    CrearMapa.crearMapa(ordenes)
 
     results = {"FO_Global": (FO_Cumplimiento.getValue() +
                              FO_Minmax.getValue()),
