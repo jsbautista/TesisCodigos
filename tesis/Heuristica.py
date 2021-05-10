@@ -1,6 +1,8 @@
 import random
 import json
 import copy
+import time
+
 import CrearEscenario
 import numpy
 import winsound
@@ -72,16 +74,19 @@ def actualizarFeromonas(secuencia, valorsecuencias, feromonas, rho):
     return (numpy.array(deltaFeromonas) + numpy.array(feromonas)) * rho
 
 
-def heuristica():
+def heuristica(iteraciones, hormigas):
     #CrearEscenario.crearEscenario(6, 230, 4)
-    CrearEscenario.crearEscenario(2, 30, 2, 0.05)
+    #CrearEscenario.crearEscenario(2, 30, 2, 0.05)
+
+    # Guardar tiempo inicial
+    timerGeneralInicial = time.time()
 
     #Parametros metaheuristica
     alpha = 1
     beta = 5
     rho = 0.5
-    iteraciones = 50
-    hormigas = 50
+    #iteraciones = 50
+    #hormigas = 50
 
     #Leer archivos json
     with open('Escenario.json') as file:
@@ -202,13 +207,27 @@ def heuristica():
 
     print("La mejor secuencia es")
     print(secuenciaM)
-    print("Se pudieron atender " + str(len(secuenciaM) - (numDias * numEmpleados)) + " ordenes de " + str(len(habOrde) - 1))
+    print("Se pudieron atender " + str(len(secuenciaM) - (numDias * numEmpleados)) + " ordenes de " + str(
+        len(habOrde) - 1))
+    timerGeneralFinal = time.time()
+    timerGeneral = timerGeneralFinal - timerGeneralInicial
     print("La función objetivo tiene un valor de: " + str(valorSecuenciaMax))
+    print("Tiempo de ejecución total: " + str(round(timerGeneral, 2)) + " segundos")
+
+    f = open('escalabilidad.txt', 'a')
+    f.write('\n' + "Heuristica")
+    f.write('\n' + str(valorSecuenciaMax))
+    f.write('\t' + str(len(secuenciaM) - (numDias * numEmpleados)))
+    f.write('\t' + str(round(timerGeneral, 2)))
+    f.close()
+
+    '''
     while True:
         duration = 1000  # milliseconds
         freq = 440  # Hz
         winsound.Beep(freq, duration)
+    '''
 
 
 
-heuristica()
+#heuristica()

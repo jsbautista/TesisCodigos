@@ -7,6 +7,10 @@ import json
 
 
 def ejecutarModeloGurobi(filePath):
+
+    ### Ejecución del modelo
+    timerGeneralInicial = time.time()
+
     ### Parámetros de generación de datos
 
     stageFile = open(filePath, )
@@ -200,8 +204,7 @@ def ejecutarModeloGurobi(filePath):
 
     ##
 
-    ### Ejecución del modelo
-    timerGeneralInicial = time.time()
+
 
     model.ModelSense = GRB.MAXIMIZE
     model.setParam('NonConvex', 2)
@@ -215,11 +218,9 @@ def ejecutarModeloGurobi(filePath):
     for e in E:
         for d in D:
             for o in O:
-                print("aux dias es " + str(auxMaxDia[o]))
-                print("ans es " + str(ans[o]))
                 for a in O:
                     print(x[e, o, d, a])
-
+    
     print("\n")
     print("Función Objetivo total: " + str(FO_Cumplimiento.getValue() +
                                            FO_Minmax.getValue() * 0.05 - FO_ANS.getValue() - (numEmpleados * numDiasOperacion)))
@@ -231,8 +232,7 @@ def ejecutarModeloGurobi(filePath):
     for d in D:
         print("Dia ac " + str(d) + " Min ordenes " + str(minx[d]))
 
-    print("\n")
-    print("Tiempo de ejecución total: " + str(round(timerGeneral, 2)) + " segundos")
+
 
     for a in O:
         for e in E:
@@ -241,6 +241,27 @@ def ejecutarModeloGurobi(filePath):
                     if x[e, o, d, a].X == 1:
                         print(x[e, o, d, a])
                         print("parte de " + str(a) + " hasta " + str(o))
+
+    ### Consulta de resultados
+    for e in E:
+        for d in D:
+            for o in O:
+                print("aux dias es " + str(auxMaxDia[o]))
+                print("ans es " + str(ans[o]))
+
+    print("\n")
+    print("Función Objetivo total: " + str(FO_Cumplimiento.getValue() +
+                                           FO_Minmax.getValue() * 0.05 - FO_ANS.getValue() - (
+                                                       numEmpleados * numDiasOperacion)))
+    print("Tiempo de ejecución total: " + str(round(timerGeneral, 2)) + " segundos")
+
+    ordenes = quicksum(x[e, o, d, a] for e in E for o in O for d in D for a in O)
+
+    f = open('resultados.txt', 'a')
+    f.write('\n' + str(FO_Cumplimiento.getValue() + FO_Minmax.getValue() * 0.05 - FO_ANS.getValue() - (numEmpleados * numDiasOperacion)))
+    f.write('\t' + str(ordenes.getValue() - (numEmpleados * numDiasOperacion)))
+    f.write('\t' + str(round(timerGeneral, 2)))
+    f.close()
 
     results = {"FO_Global": (FO_Cumplimiento.getValue() +
                              FO_Minmax.getValue()),

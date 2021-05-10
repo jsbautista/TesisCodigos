@@ -56,7 +56,7 @@ def crearEscenario(numEmpleados, numOrdenes, numDias, costoAns):
                 d = 2 * 6371 * math.asin(math.sqrt(math.sin(c * (lat2 - lat1) / 2) ** 2 + math.cos(c * lat1)
                                                 * math.cos(c * lat2) * math.sin(c * (long2 - long1) / 2) ** 2))
                 distanciaA.append(d)
-                tiempoA.append((d + 15)/ 24)
+                tiempoA.append((d + 10)/ 24)
 
             contadorDis += 1
         contador += 1
@@ -155,7 +155,7 @@ def crearEscenario(numEmpleados, numOrdenes, numDias, costoAns):
     data['porcentajeCumplimientoHabilidades'] = 1
     data['horasTrabajo'] = horasDisponible
     data['maxDia'] = maxDia
-    costoAns = numpy.repeat(0.05,numOrdenes-1).tolist()
+    costoAns = numpy.repeat(costoAns,numOrdenes-1).tolist()
     costoAns.insert(0,0)
     data['costosANS'] = costoAns
     data['prioridad'] = prioridad
@@ -163,5 +163,5 @@ def crearEscenario(numEmpleados, numOrdenes, numDias, costoAns):
     with open("./Escenario.json", 'w') as file:
         json.dump(data,file)
 
-crearEscenario(6,230,6,0.05)
+#crearEscenario(6,230,6,0.05)
 
