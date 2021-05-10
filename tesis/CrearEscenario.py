@@ -21,7 +21,7 @@ def crearEscenario(numEmpleados, numOrdenes, numDias, costoAns):
 
 
     contador = 0
-    while numOrdenes > contador:
+    while numOrdenes > (contador):
         row = stageData[contador]
 
         # Sacar el número de habilidades
@@ -41,7 +41,7 @@ def crearEscenario(numEmpleados, numOrdenes, numDias, costoAns):
         distanciaA = []
         tiempoA = []
         contadorDis = 0
-        while contadorDis < numOrdenes:
+        while (contadorDis) < numOrdenes:
             comparar = stageData[contadorDis]
             if(contadorDis ==contador):
                 distanciaA.append(0)
@@ -163,5 +163,9 @@ def crearEscenario(numEmpleados, numOrdenes, numDias, costoAns):
     with open("./Escenario.json", 'w') as file:
         json.dump(data,file)
 
+<<<<<<< HEAD
 #crearEscenario(6,230,6,0.05)
+=======
+crearEscenario(6,23,6,0.05)
+>>>>>>> da34c15f80434fa3d40e5507d150bd654dd3ba96
 
