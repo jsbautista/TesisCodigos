@@ -193,6 +193,11 @@ def ejecutarModeloGurobi(filePath):
                                for d in D
                                for a in O)
 
+    FO_Tiempo = quicksum(x[e, o, d, a] * (1/(tiemD[o,a]+1)) for e in E
+                               for o in O
+                               for d in D
+                               for a in O)
+
 
 
     # Función Objetivo - Costo por incumplimiento de ANS
@@ -214,7 +219,7 @@ def ejecutarModeloGurobi(filePath):
 
     timerGeneralFinal = time.time()
     timerGeneral = timerGeneralFinal - timerGeneralInicial
-
+    '''
     ### Consulta de resultados
     for e in E:
         for d in D:
@@ -238,6 +243,7 @@ def ejecutarModeloGurobi(filePath):
 
     print("\n")
     print("Tiempo de ejecución total: " + str(round(timerGeneral, 2)) + " segundos")
+    '''
     ordenes=[]
     for d in D:
 
@@ -247,17 +253,17 @@ def ejecutarModeloGurobi(filePath):
                     if x[e, o, d, a].X == 1:
                         ordenes.append(a)
                         ordenes.append(o)
-                        print("parte de " + str(a) + " hasta " + str(o))
+                        #print("parte de " + str(a) + " hasta " + str(o))
     
     CrearMapa.crearMapa(ordenes)
-
+    '''
     ### Consulta de resultados
     for e in E:
         for d in D:
             for o in O:
                 print("aux dias es " + str(auxMaxDia[o]))
                 print("ans es " + str(ans[o]))
-
+    '''
     print("\n")
     print("Función Objetivo total: " + str(FO_Cumplimiento.getValue() +
                                            FO_Minmax.getValue() * 0.05 - FO_ANS.getValue() - (

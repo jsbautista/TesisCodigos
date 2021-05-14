@@ -17,7 +17,7 @@ tamano = "Small"
 
 directory_path = "./" 
 
-CrearEscenario.crearEscenario(2,16,2,0.05)
+CrearEscenario.crearEscenario(2,16,1,0.05)
 
 directory = os.fsencode(directory_path)
     

@@ -2,7 +2,7 @@ import random
 import json
 import copy
 import time
-
+import CrearMapa
 import CrearEscenario
 import numpy
 import winsound
@@ -76,7 +76,7 @@ def actualizarFeromonas(secuencia, valorsecuencias, feromonas, rho):
 
 def heuristica(iteraciones, hormigas):
     #CrearEscenario.crearEscenario(6, 230, 4)
-    #CrearEscenario.crearEscenario(2, 30, 2, 0.05)
+    CrearEscenario.crearEscenario(2, 16, 2, 0.05)
 
     # Guardar tiempo inicial
     timerGeneralInicial = time.time()
@@ -172,7 +172,11 @@ def heuristica(iteraciones, hormigas):
 
                         #Actualizo valores
                         tiempoDisponible -= tiempo[nodoActual][contador]
+
+                        valorSecuencia += 1/(tiempo[nodoActual][contador]+1)
                         nodoActual = contador
+
+
 
                         #Actualizar valor de la secuencia
                         if(nodoActual!=0):
@@ -205,6 +209,14 @@ def heuristica(iteraciones, hormigas):
         #Actualiza feromonas
         feromonas = actualizarFeromonas(secuencias, valorSecuencias, feromonas, rho)
 
+    ordenesMapa = []
+    ordenesMapa.append(0)
+    for i in secuenciaM:
+        ordenesMapa.append(i)
+        ordenesMapa.append(i)
+    print(ordenesMapa)
+    CrearMapa.crearMapa(ordenesMapa)
+
     print("La mejor secuencia es")
     print(secuenciaM)
     print("Se pudieron atender " + str(len(secuenciaM) - (numDias * numEmpleados)) + " ordenes de " + str(
@@ -230,4 +242,4 @@ def heuristica(iteraciones, hormigas):
 
 
 
-#heuristica()
+heuristica(100,100)

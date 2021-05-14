@@ -163,9 +163,7 @@ def crearEscenario(numEmpleados, numOrdenes, numDias, costoAns):
     with open("./Escenario.json", 'w') as file:
         json.dump(data,file)
 
-<<<<<<< HEAD
-#crearEscenario(6,230,6,0.05)
-=======
-crearEscenario(6,23,6,0.05)
->>>>>>> da34c15f80434fa3d40e5507d150bd654dd3ba96
+
+#crearEscenario(6,23,6,0.05)
+
 

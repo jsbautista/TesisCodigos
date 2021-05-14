@@ -30,17 +30,13 @@ def crearMapa(ordenes):
                 col+=1
                 c=-1
         if (cont !=0 and (cont%2-1)==0):
-            print("tamaño puntos")
-            print(len(points))
-            print("color"+colors[col])
 
             folium.PolyLine(points,color=colors[col], weight=4, opacity=1).add_to(m)
             points=[]
-            print("Ingreso")
 
         
         
         
         cont+=1
-    m.save("prueba2.html")
+    m.save("prueba5.html")
 
